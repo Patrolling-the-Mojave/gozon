@@ -17,6 +17,9 @@ public class OrderEventConsumerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
+    @Value("${spring.kafka.consumer.group-id}")
+    private String groupId;
+
     @Bean
     public KafkaConsumer<String, OrderCreatedEventAvro> orderEventConsumer() {
         Properties properties = new Properties();
@@ -24,7 +27,7 @@ public class OrderEventConsumerConfig {
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, OrderAvroDeserializer.class);
         properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
-        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, false);
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         return new KafkaConsumer<>(properties);
     }
 }

@@ -22,8 +22,8 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public OrderDto findById(@PathVariable Long id){
-        return orderService.findOrderById(id);
+    public OrderDto findById(@PathVariable Long orderId){
+        return orderService.findOrderById(orderId);
     }
 
     @GetMapping("/accounts/{accountId}")

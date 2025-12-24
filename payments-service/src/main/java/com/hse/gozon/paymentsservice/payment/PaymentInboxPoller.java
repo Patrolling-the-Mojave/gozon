@@ -13,10 +13,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.errors.WakeupException;
-import org.apache.kafka.common.serialization.Deserializer;
-import org.apache.kafka.common.serialization.Serializer;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -41,22 +38,24 @@ public class PaymentInboxPoller {
     private String ordersTopic;
 
     @PostConstruct
-    private void setup(){
+    private void setup() {
         Runtime.getRuntime().addShutdownHook(new Thread(orderEventConsumer::wakeup));
         orderEventConsumer.subscribe(List.of(ordersTopic));
     }
 
     @Scheduled(fixedDelay = 2000)
     public void poll() {
+        log.info("polling...");
         try {
             ConsumerRecords<String, OrderCreatedEventAvro> records = orderEventConsumer.poll(POLL_DURATION);
             for (ConsumerRecord<String, OrderCreatedEventAvro> record : records) {
+                log.info("start processing");
                 processEvent(record.value(), record.key());
             }
             orderEventConsumer.commitSync();
-        } catch (WakeupException exception){
+        } catch (WakeupException exception) {
 
-        } catch (Exception exception){
+        } catch (Exception exception) {
             log.error("произошла ошибка при обработке данных", exception);
         }
     }
@@ -67,6 +66,7 @@ public class PaymentInboxPoller {
                 .setAccountId(orderEvent.getUserId())
                 .setOrderId(orderEvent.getOrderId())
                 .setCreatedAt(LocalDateTime.now().toInstant(ZoneOffset.UTC))
+                .setStatus(PaymentStatusAvro.PENDING)
                 .build();
 
         PaymentInbox inbox = toPaymentInbox(jsonSerializer.serialize(paymentEventAvro), eventId);

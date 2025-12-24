@@ -1,6 +1,5 @@
 package com.hse.gozon.paymentsservice.payment;
 
-import com.hse.gozon.paymentsservice.exception.PaymentServiceException;
 import com.hse.gozon.paymentsservice.model.PaymentOutbox;
 import com.hse.gozon.paymentsservice.payment.serializer.PaymentEventJsonSerializer;
 import com.hse.gozon.paymentsservice.repository.PaymentOutboxRepository;
@@ -12,7 +11,6 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;

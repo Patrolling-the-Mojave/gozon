@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "payment_inbox")
@@ -21,8 +20,6 @@ public class PaymentInbox {
     private Long id;
     @Column(name = "event_id", nullable = false, unique = true)
     private String eventId;
-    @Column(name = "payment_id", nullable = false)
-    private Long paymentId;
     private String payload;
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

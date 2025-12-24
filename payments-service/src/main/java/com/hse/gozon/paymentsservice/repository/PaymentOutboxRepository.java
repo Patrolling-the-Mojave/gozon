@@ -9,10 +9,11 @@ import java.util.List;
 
 public interface PaymentOutboxRepository extends JpaRepository<PaymentOutbox, Long> {
 
-    @Query("""
-            SELECT po FROM PaymentOutbox
-            WHERE po.processedAt IS NULL
-            ORDER BY po.createdAt ASC
-            """)
+    @Query(value =
+            """
+            SELECT * FROM payment_outbox
+            WHERE processed_at IS NULL
+            ORDER BY created_at ASC
+            """, nativeQuery = true)
     List<PaymentOutbox> findUnprocessed();
 }

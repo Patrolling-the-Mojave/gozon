@@ -10,7 +10,7 @@ public class OutboxMapper {
     public static OrderOutbox toOutbox(Order order, String payload){
         return OrderOutbox.builder()
                 .orderId(order.getId())
-                .eventId(UUID.randomUUID())
+                .eventId(UUID.randomUUID().toString())
                 .payload(payload)
                 .createdAt(order.getCreatedAt())
                 .build();

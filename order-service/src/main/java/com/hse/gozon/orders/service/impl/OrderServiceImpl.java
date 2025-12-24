@@ -47,8 +47,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto findOrderById(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(() ->
-                new NotFoundException("пользователь с id " + orderId + " не найден"));
-        log.debug("пользователь с id{} успешно найден", order);
+                new NotFoundException("заказ с id " + orderId + " не найден"));
+        log.debug("заказ с id{} успешно найден", order);
         return toDto(order);
     }
 

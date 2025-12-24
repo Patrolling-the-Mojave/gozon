@@ -15,6 +15,6 @@ public interface AccountClient {
     @GetMapping("/api/accounts/{accountId}")
     AccountDto findById(@PathVariable Integer accountId);
 
-    @PatchMapping("/api/accounts/deposit")
+    @PostMapping("/api/accounts/deposit")
     AccountDto deposit(@RequestBody DepDto depDto);
 }

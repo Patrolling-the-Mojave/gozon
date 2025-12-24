@@ -24,20 +24,22 @@ public class OrderOutboxPoller {
     private final OrderOutboxRepository outboxRepository;
     private final OrderCreatedEventJsonSerializer jsonSerializer;
 
-    @Value("${gozon.orders.v1}")
+    @Value("${spring.kafka.topics.gozon.orders.v1}")
     private String orderTopic;
 
     @Scheduled(fixedDelay = 2000)
     public void publish() {
+        log.info("OrderOutboxPoller: checking for unprocessed messages...");
         List<OrderOutbox> unprocessedOrders = outboxRepository.findUnprocessed();
         for (OrderOutbox unprocessedOrder : unprocessedOrders) {
             try {
                 OrderCreatedEventAvro event = jsonSerializer.deserialize(unprocessedOrder.getPayload());
-                ProducerRecord<String, OrderCreatedEventAvro> record = new ProducerRecord<>(unprocessedOrder.getEventId().toString(), event);
+                ProducerRecord<String, OrderCreatedEventAvro> record = new ProducerRecord<>(orderTopic, unprocessedOrder.getEventId(), event);
                 orderKafkaProducer.send(record).get(5, TimeUnit.SECONDS);
                 unprocessedOrder.setProcessedAt(LocalDateTime.now());
                 outboxRepository.save(unprocessedOrder);
-            } catch (Exception exception){
+                log.info("Sent event to Kafka, eventId: {}", unprocessedOrder.getEventId());
+            } catch (Exception exception) {
                 log.warn("произошла ошибка при отправке данных в топик " + orderTopic, exception);
             }
         }

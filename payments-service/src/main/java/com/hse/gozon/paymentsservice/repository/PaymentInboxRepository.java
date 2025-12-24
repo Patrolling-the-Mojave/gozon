@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface PaymentInboxRepository extends JpaRepository<PaymentInbox, Long> {
-    @Query("""
-            SELECT pi FROM PaymentInbox
-            WHERE pi.processedAt IS NULL
-            ORDER BY pi.createdAt ASC
-            """)
+    @Query(value = """
+            SELECT * FROM payment_inbox
+            WHERE processed_at IS NULL
+            ORDER BY created_at ASC
+            """, nativeQuery = true)
     List<PaymentInbox> findUnprocessed();
 }

@@ -1,12 +1,15 @@
 spring:
   jpa:
     defer-datasource-initialization: true
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   sql:
     init:
       mode: always
       continue-on-error: false
   kafka:
     consumer:
+      group-id: order-consumer-group
       enable-auto-commit: false
       auto-offset-reset: false
     bootstrap-servers: localhost:9092
@@ -17,7 +20,7 @@ spring:
         payments:
           v1: gozon.payments.v1
   datasource:
-    url: jdbc:postgresql://postgres:5432/order-service
+    driver-class-name: org.postgresql.Driver
     username: user
     password: 123
 

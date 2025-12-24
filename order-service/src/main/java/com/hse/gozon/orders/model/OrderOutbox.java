@@ -22,7 +22,7 @@ public class OrderOutbox {
     @Column(name = "order_id", nullable = false)
     private Long orderId;
     @Column(name = "event_id", unique = true, nullable = false)
-    private UUID eventId;
+    private String eventId;
     @Column(nullable = false)
     private String payload;
     @Column(nullable = false)

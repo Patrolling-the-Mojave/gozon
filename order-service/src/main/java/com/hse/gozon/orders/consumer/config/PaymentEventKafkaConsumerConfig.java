@@ -23,6 +23,9 @@ public class PaymentEventKafkaConsumerConfig {
     @Value("${spring.kafka.consumer.auto-offset-reset}")
     private Boolean autoOffsetReset;
 
+    @Value("${spring.kafka.consumer.group-id}")
+    private String groupId;
+
     @Bean
     public KafkaConsumer<String, PaymentEventAvro> paymentEventKafkaConsumer(){
         Properties properties = new Properties();
@@ -30,7 +33,7 @@ public class PaymentEventKafkaConsumerConfig {
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, PaymentEventDeserializer.class);
         properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, enableAutoCommit);
-        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         return new KafkaConsumer<>(properties);
     }
 }

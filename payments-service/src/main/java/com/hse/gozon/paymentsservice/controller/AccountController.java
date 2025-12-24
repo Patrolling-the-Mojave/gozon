@@ -25,7 +25,7 @@ public class AccountController {
         return accountService.findAccountById(accountId);
     }
 
-    @PatchMapping("/deposit")
+    @PostMapping("/deposit")
     public AccountDto deposit(@RequestBody DepDto depositDto){
         return accountService.deposit(depositDto);
     }
