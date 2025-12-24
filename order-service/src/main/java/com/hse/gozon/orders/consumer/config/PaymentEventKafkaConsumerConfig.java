@@ -20,9 +20,6 @@ public class PaymentEventKafkaConsumerConfig {
     @Value("${spring.kafka.consumer.enable-auto-commit}")
     private Boolean enableAutoCommit;
 
-    @Value("${spring.kafka.consumer.auto-offset-reset}")
-    private Boolean autoOffsetReset;
-
     @Value("${spring.kafka.consumer.group-id}")
     private String groupId;
 

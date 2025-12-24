@@ -7,7 +7,6 @@ import com.hse.gozon.paymentsservice.model.PaymentOutbox;
 import com.hse.gozon.paymentsservice.model.PaymentStatus;
 import com.hse.gozon.paymentsservice.payment.serializer.PaymentEventJsonSerializer;
 import com.hse.gozon.paymentsservice.repository.AccountRepository;
-import com.hse.gozon.paymentsservice.repository.PaymentInboxRepository;
 import com.hse.gozon.paymentsservice.repository.PaymentOutboxRepository;
 import com.hse.gozon.paymentsservice.repository.PaymentRepository;
 import com.hse.kafka.avro.event.PaymentEventAvro;

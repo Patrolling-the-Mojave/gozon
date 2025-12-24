@@ -1,15 +1,11 @@
 package com.hse.gozon.paymentsservice.payment.serializer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hse.gozon.dto.account.PaymentEventJson;
 import com.hse.gozon.paymentsservice.exception.PaymentServiceException;
 import com.hse.kafka.avro.event.PaymentEventAvro;
 import com.hse.kafka.avro.event.PaymentStatusAvro;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

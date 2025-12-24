@@ -11,7 +11,6 @@ spring:
     consumer:
       group-id: order-consumer-group
       enable-auto-commit: false
-      auto-offset-reset: false
     bootstrap-servers: localhost:9092
     topics:
       gozon:
