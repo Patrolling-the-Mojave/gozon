@@ -5,6 +5,8 @@ import com.hse.gozon.paymentsservice.payment.serializer.PaymentEventJsonSerializ
 import com.hse.gozon.paymentsservice.repository.PaymentInboxRepository;
 import com.hse.kafka.avro.event.OrderCreatedEventAvro;
 import com.hse.kafka.avro.event.PaymentEventAvro;
+import com.hse.kafka.avro.event.PaymentStatusAvro;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -30,7 +32,6 @@ import static com.hse.gozon.paymentsservice.mapper.PaymentInboxMapper.toPaymentI
 @RequiredArgsConstructor
 public class PaymentInboxPoller {
     private final PaymentInboxRepository inboxRepository;
-    private final Deserializer<OrderCreatedEventAvro> orderCreatedEventAvroDeserializer;
     private final KafkaConsumer<String, OrderCreatedEventAvro> orderEventConsumer;
     private final PaymentEventJsonSerializer jsonSerializer;
 
@@ -39,15 +40,20 @@ public class PaymentInboxPoller {
     @Value("${spring.kafka.topics.gozon.orders.v1}")
     private String ordersTopic;
 
+    @PostConstruct
+    private void setup(){
+        Runtime.getRuntime().addShutdownHook(new Thread(orderEventConsumer::wakeup));
+        orderEventConsumer.subscribe(List.of(ordersTopic));
+    }
+
     @Scheduled(fixedDelay = 2000)
     public void poll() {
         try {
-            Runtime.getRuntime().addShutdownHook(new Thread(orderEventConsumer::wakeup));
-            orderEventConsumer.subscribe(List.of(ordersTopic));
             ConsumerRecords<String, OrderCreatedEventAvro> records = orderEventConsumer.poll(POLL_DURATION);
             for (ConsumerRecord<String, OrderCreatedEventAvro> record : records) {
                 processEvent(record.value(), record.key());
             }
+            orderEventConsumer.commitSync();
         } catch (WakeupException exception){
 
         } catch (Exception exception){

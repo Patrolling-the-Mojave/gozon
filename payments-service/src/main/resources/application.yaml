@@ -17,9 +17,9 @@ spring:
         payments:
           v1: gozon.payments.v1
   datasource:
-    url: jdbc:postgresql://postgres:5432/order-service
+    url: jdbc:postgresql://postgres:5433/payments-service
     username: user
     password: 123
 
 server:
-  port: 9091
+  port: 9090

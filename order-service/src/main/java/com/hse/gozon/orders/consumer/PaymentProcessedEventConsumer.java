@@ -51,8 +51,7 @@ public class PaymentProcessedEventConsumer {
             }
             paymentEventKafkaConsumer.commitSync();
         } catch (WakeupException wakeupException) {
-            paymentEventKafkaConsumer.commitSync();
-            throw wakeupException;
+
         } catch (Exception exception) {
             paymentEventKafkaConsumer.commitSync();
         }

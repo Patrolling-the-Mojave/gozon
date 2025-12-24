@@ -1,7 +1,7 @@
 package com.hse.gozon.orders.service.impl;
 
-import com.hse.gozon.dto.OrderCreateRequestDto;
-import com.hse.gozon.dto.OrderDto;
+import com.hse.gozon.dto.order.OrderCreateRequestDto;
+import com.hse.gozon.dto.order.OrderDto;
 import com.hse.gozon.orders.exception.NotFoundException;
 import com.hse.gozon.orders.mapper.OrderAvroMapper;
 import com.hse.gozon.orders.model.Order;

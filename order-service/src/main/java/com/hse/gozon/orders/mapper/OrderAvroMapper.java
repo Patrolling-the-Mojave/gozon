@@ -2,7 +2,7 @@ package com.hse.gozon.orders.mapper;
 
 import com.hse.gozon.orders.model.Order;
 import com.hse.kafka.avro.event.OrderCreatedEventAvro;
-import com.hse.kafka.avro.event.OrderStatus;
+import com.hse.kafka.avro.event.OrderStatusAvro;
 
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -14,7 +14,7 @@ public class OrderAvroMapper {
                 .setAmount(order.getTotalAmount().doubleValue())
                 .setUserId(order.getUserId())
                 .setCreatedAt(Instant.ofEpochSecond(order.getCreatedAt().toEpochSecond(ZoneOffset.UTC)))
-                .setStatus(OrderStatus.PENDING)
+                .setStatus(OrderStatusAvro.NEW)
                 .build();
     }
 }

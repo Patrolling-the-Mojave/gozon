@@ -30,16 +30,16 @@ public class OrderOutboxPoller {
     @Scheduled(fixedDelay = 2000)
     public void publish() {
         List<OrderOutbox> unprocessedOrders = outboxRepository.findUnprocessed();
-        try {
-            for (OrderOutbox unprocessedOrder : unprocessedOrders) {
+        for (OrderOutbox unprocessedOrder : unprocessedOrders) {
+            try {
                 OrderCreatedEventAvro event = jsonSerializer.deserialize(unprocessedOrder.getPayload());
                 ProducerRecord<String, OrderCreatedEventAvro> record = new ProducerRecord<>(unprocessedOrder.getEventId().toString(), event);
                 orderKafkaProducer.send(record).get(5, TimeUnit.SECONDS);
                 unprocessedOrder.setProcessedAt(LocalDateTime.now());
                 outboxRepository.save(unprocessedOrder);
+            } catch (Exception exception){
+                log.warn("произошла ошибка при отправке данных в топик " + orderTopic, exception);
             }
-        } catch (Exception exception) {
-            log.warn("произошла ошибка при отправке данных в топик " + orderTopic, exception);
         }
     }
 }

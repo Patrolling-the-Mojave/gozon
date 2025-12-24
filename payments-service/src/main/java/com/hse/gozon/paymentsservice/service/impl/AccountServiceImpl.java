@@ -3,6 +3,7 @@ package com.hse.gozon.paymentsservice.service.impl;
 import com.hse.gozon.dto.account.AccountCreateDto;
 import com.hse.gozon.dto.account.AccountDto;
 import com.hse.gozon.dto.account.DepDto;
+import com.hse.gozon.paymentsservice.exception.EmailAlreadyExistsException;
 import com.hse.gozon.paymentsservice.exception.NotFoundException;
 import com.hse.gozon.paymentsservice.model.Account;
 import com.hse.gozon.paymentsservice.repository.AccountRepository;
@@ -23,6 +24,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDto createAccount(AccountCreateDto newAccount) {
+        if (accountRepository.existsByEmail(newAccount.getEmail())) {
+            throw new EmailAlreadyExistsException("пользователь с email" + newAccount.getEmail() + "уже существует");
+        }
         Account account = accountRepository.save(toEntity(newAccount));
         log.debug("пользователь{} сохранен", account.getEmail());
         return toDto(account);
@@ -39,13 +43,16 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public AccountDto deposit(DepDto depDto) {
-        Account account = getAccountById(depDto.getAccountId());
+        if (!accountRepository.existsById(depDto.getAccountId())) {
+            throw new NotFoundException("пользователь с id " + depDto.getAccountId() + " не найден");
+        }
         accountRepository.deposit(depDto.getAccountId(), depDto.getAmount());
+        Account account = getAccountById(depDto.getAccountId());
         log.debug("счет успешно пополнен{}", account.getBalance());
         return toDto(account);
     }
 
-    private Account getAccountById(Integer id){
+    private Account getAccountById(Integer id) {
         return accountRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("пользователь с id " + " не найден"));
     }

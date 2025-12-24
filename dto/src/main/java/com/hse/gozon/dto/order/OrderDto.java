@@ -1,4 +1,4 @@
-package com.hse.gozon.dto;
+package com.hse.gozon.dto.order;
 
 import lombok.Builder;
 import lombok.Data;

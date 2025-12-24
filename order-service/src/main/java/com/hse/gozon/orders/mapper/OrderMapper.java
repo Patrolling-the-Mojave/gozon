@@ -1,7 +1,7 @@
 package com.hse.gozon.orders.mapper;
 
-import com.hse.gozon.dto.OrderCreateRequestDto;
-import com.hse.gozon.dto.OrderDto;
+import com.hse.gozon.dto.order.OrderCreateRequestDto;
+import com.hse.gozon.dto.order.OrderDto;
 import com.hse.gozon.orders.model.Order;
 import com.hse.gozon.orders.model.OrderStatus;
 
@@ -15,7 +15,7 @@ public class OrderMapper {
                 .totalAmount(newOrder.getTotalAmount())
                 .userId(newOrder.getUserId())
                 .createdAt(LocalDateTime.now())
-                .status(OrderStatus.PENDING)
+                .status(OrderStatus.NEW)
                 .build();
     }
 

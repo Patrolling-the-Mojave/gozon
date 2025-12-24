@@ -25,6 +25,7 @@ public class Payment {
     private Long orderId;
     @Enumerated(value = EnumType.STRING)
     private PaymentStatus status;
+    @Column(name = "amount", precision = 19, scale = 2, nullable = false)
     private BigDecimal amount;
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

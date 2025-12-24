@@ -24,6 +24,7 @@ public class OrderEventConsumerConfig {
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, OrderAvroDeserializer.class);
         properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, false);
         return new KafkaConsumer<>(properties);
     }
 }

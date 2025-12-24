@@ -1,7 +1,7 @@
 package com.hse.gozon.orders.controller;
 
-import com.hse.gozon.dto.OrderCreateRequestDto;
-import com.hse.gozon.dto.OrderDto;
+import com.hse.gozon.dto.order.OrderCreateRequestDto;
+import com.hse.gozon.dto.order.OrderDto;
 import com.hse.gozon.orders.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class OrderController {
         return orderService.findOrderById(id);
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/accounts/{accountId}")
     public List<OrderDto> findAllOrdersByAccountId(@PathVariable Integer accountId){
         return orderService.findAllOrdersByAccountId(accountId);
     }

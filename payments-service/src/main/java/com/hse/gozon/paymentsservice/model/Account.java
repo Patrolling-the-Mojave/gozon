@@ -19,7 +19,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "balance")
+    @Column(name = "balance", precision = 19, scale = 2)
     private BigDecimal balance;
     @Column(name = "name", nullable = false)
     private String name;

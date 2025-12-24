@@ -19,7 +19,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "total_amount", nullable = false)
+    @Column(name = "total_amount",precision = 19, scale = 2, nullable = false)
     private BigDecimal totalAmount;
     @Column(name = "user_id", nullable = false)
     private Integer userId;

@@ -9,6 +9,7 @@ import com.hse.gozon.paymentsservice.repository.PaymentInboxRepository;
 import com.hse.gozon.paymentsservice.repository.PaymentOutboxRepository;
 import com.hse.gozon.paymentsservice.repository.PaymentRepository;
 import com.hse.kafka.avro.event.PaymentEventAvro;
+import com.hse.kafka.avro.event.PaymentStatusAvro;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Deserializer;
@@ -58,9 +59,11 @@ public class PaymentService {
         Payment payment = toEntity(paymentEvent);
         if (updatedRows == 0) {
             payment.setStatus(PaymentStatus.CANCELLED);
+            paymentEvent.setStatus(PaymentStatusAvro.CANCELLED);
             log.error("недостаточно денег на аккаунте");
         } else {
             payment.setStatus(PaymentStatus.APPROVED);
+            paymentEvent.setStatus(PaymentStatusAvro.APPROVED);
         }
         paymentRepository.save(payment);
         log.debug("списание средств прошло успешно");

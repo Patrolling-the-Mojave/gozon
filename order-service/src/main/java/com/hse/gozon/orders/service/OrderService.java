@@ -1,7 +1,7 @@
 package com.hse.gozon.orders.service;
 
-import com.hse.gozon.dto.OrderCreateRequestDto;
-import com.hse.gozon.dto.OrderDto;
+import com.hse.gozon.dto.order.OrderCreateRequestDto;
+import com.hse.gozon.dto.order.OrderDto;
 
 import java.util.List;
 
